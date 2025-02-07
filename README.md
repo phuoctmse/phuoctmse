@@ -1,6 +1,6 @@
 Hi ![](https://user-images.githubusercontent.com/18350557/176309783-0785949b-9127-417c-8b55-ab5a4333674e.gif)My name is Minh Phuoc
-==================================================================================================================================
 <a href="https://app.daily.dev/truongphuoc"><img src="https://api.daily.dev/devcards/v2/mt7divzgyFUHTTaNIGOLV.png?type=default&r=0lh" width="356" alt="Truong Phuoc's Dev Card"/></a>
+==================================================================================================================================
 
 Web Developer
 -------------
