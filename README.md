@@ -4,7 +4,7 @@ Hi ![](https://user-images.githubusercontent.com/18350557/176309783-0785949b-912
 Web Developer
 -------------
 
-I've been learning to code for 3 years. I started with HTML, then have been really found a passion for backend development
+I've been learning to code for 3 years. I started with Java, then have been really found a passion for backend development in Nodejs 
 
 * 🌍  I'm based in Ho Chi Minh City, Viet Nam
 * 🖥️  See my portfolio at [MyPorforlio](http://minhphuoc.framer.website)
