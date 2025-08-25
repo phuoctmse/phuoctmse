@@ -30,8 +30,10 @@ I've been learning to code for 3 years. I started with Java, then have been real
 
 <b>My GitHub Stats</b>
 
-<a href="http://www.github.com/phuoctmse"><img src="https://github-readme-stats.vercel.app/api?username=phuoctmse&show_icons=true&hide=&count_private=true&title_color=0891b2&text_color=ffffff&icon_color=0891b2&bg_color=1c1917&hide_border=true&show_icons=true" alt="phuoctmse's GitHub stats" /></a>
+<a href="http://www.github.com/phuoctmse"><img src="https://github-readme-stats.vercel.app/api?username=phuoctmse&show_icons=true&hide=&count_private=true&text_color=151515&title_color=FB8C00&icon_color=151515&hide_border=true&show_icons=true" alt="phuoctmse's GitHub stats" /></a>
 
-<a href="http://www.github.com/phuoctmse"><img src="https://github-readme-streak-stats.herokuapp.com/?user=phuoctmse&stroke=ffffff&background=1c1917&ring=0891b2&fire=0891b2&currStreakNum=ffffff&currStreakLabel=0891b2&sideNums=ffffff&sideLabels=ffffff&dates=ffffff&hide_border=true" /></a>
+<a href="https://github.com/phuoctmse" align="left"><img src="https://github-readme-stats.vercel.app/api/top-langs/?username=phuoctmse&langs_count=20&text_color=151515&title_color=FB8C00&icon_color=151515&hide_border=true&locale=en&custom_title=Top%20%Languages" alt="Top Languages" /></a>
 
-<a href="https://github.com/phuoctmse" align="left"><img src="https://github-readme-stats.vercel.app/api/top-langs/?username=phuoctmse&langs_count=10&title_color=0891b2&text_color=ffffff&icon_color=0891b2&bg_color=1c1917&hide_border=true&locale=en&custom_title=Top%20%Languages" alt="Top Languages" /></a>
+  <a href="https://wakatime.com/@anhtnse" style="display: inline-block;">
+    <img src="https://github-readme-stats.vercel.app/api/wakatime?username=ttrece&custom_title=Dev%20Metrics%20(14%20Aug%202025%20-%20now)&text_color=151515&title_color=FB8C00&icon_color=151515&langs_count=20" alt="⏳Waka Dev Metrics">
+  </a>
