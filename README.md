@@ -1,15 +1,17 @@
 Hi ![](https://user-images.githubusercontent.com/18350557/176309783-0785949b-9127-417c-8b55-ab5a4333674e.gif)My name is Minh Phuoc
 ==================================================================================================================================
 
-Web Developer
+DevOps Engineer
 -------------
 
-I've been learning to code for 3 years. I started with Java, then have been really found a passion for backend development in Nodejs 
+Motivated and detail-oriented Software Engineer graduate with a strong foundation in DevOps tools and practices.
+Proficient in CI/CD pipeline design, containerization, cloud infrastructure, and automation. Seeking a challenging role to
+apply and enhance my skills as a DevOps Engineer in a dynamic and fast-paced tech environment.
 
 * 🌍  I'm based in Ho Chi Minh City, Viet Nam
 * 🖥️  See my portfolio at [MyPorforlio](http://minhphuoc.framer.website)
 * ✉️  You can contact me at [phuoctm0707@gmail.com](mailto:phuoctm0707@gmail.com)
-* 🧠  I'm learning Software Enginneer
+* 🧠  I'm a DevOps Engineer
 
 ### Socials
 
