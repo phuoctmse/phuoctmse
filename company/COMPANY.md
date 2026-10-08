@@ -64,12 +64,6 @@ Hệ thống AI Ops agent tự host trong cluster, với các lớp bảo vệ b
 - Chứng chỉ AWS: Solutions Architect Associate, Cloud Practitioner, Serverless.
 - Từng dẫn dắt mảng DevOps/backend cho nền tảng microservices 5 service, uptime 99.9%.
 
-## Traction
-
-- 3 sản phẩm open-source/portfolio đã public.
-- [TODO] Số người dùng / khách hàng / pilot nếu có.
-- [TODO] Doanh thu hoặc LOI nếu có.
-
 ## Kế hoạch 12 tháng
 
 - Phát hành Kite v1 (GA) với tài liệu và Helm chart.
