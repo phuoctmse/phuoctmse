@@ -4,61 +4,367 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Minh Phuoc Solution</title>
-<meta name="description" content="Minh Phuoc Solution builds AI-native infrastructure tooling for safe Kubernetes incident response.">
+<meta name="description" content="Minh Phuoc Solution builds AI-native infrastructure tooling that helps engineering teams detect, diagnose and remediate Kubernetes incidents safely.">
+<meta name="theme-color" content="#070b16">
+<meta property="og:title" content="Minh Phuoc Solution">
+<meta property="og:description" content="AI-native infrastructure tooling for safe Kubernetes incident response.">
+<meta property="og:url" content="https://truongminhphuoc.id.vn">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%236ea8ff'/%3E%3Cpath d='M8 23V9l8 9 8-9v14' fill='none' stroke='%23070b16' stroke-width='3' stroke-linejoin='round' stroke-linecap='round'/%3E%3C/svg%3E">
 <style>
-  :root { --bg:#0b1020; --fg:#e8ecf5; --muted:#9aa5bd; --accent:#6ea8ff; --card:#141b33; }
-  * { box-sizing:border-box; }
-  body { margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif; background:var(--bg); color:var(--fg); line-height:1.6; }
-  .wrap { max-width:960px; margin:0 auto; padding:0 16px; }
-  header { padding:72px 0 48px; }
-  h1 { font-size:2.4rem; margin:0 0 12px; }
-  h2 { margin:0 0 16px; }
-  p.lead { color:var(--muted); font-size:1.15rem; max-width:640px; }
-  section { padding:32px 0; }
-  .grid { display:grid; gap:16px; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); }
-  .card { background:var(--card); border-radius:12px; padding:20px; }
-  .card h3 { margin-top:0; }
-  a { color:var(--accent); }
-  footer { padding:32px 0 48px; color:var(--muted); border-top:1px solid #222a47; }
+:root{
+  --bg:#070b16; --bg2:#0c1226; --surface:rgba(255,255,255,.04); --surface-b:rgba(255,255,255,.09);
+  --fg:#eef2fb; --muted:#9aa6c2; --accent:#6ea8ff; --accent2:#9b7bff; --ok:#4ade80; --warn:#fbbf24; --bad:#f87171;
+  --grad:linear-gradient(120deg,#6ea8ff 0%,#9b7bff 55%,#ff8ad8 100%);
+  --radius:18px; --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:light){
+  :root:not([data-theme="dark"]){
+    --bg:#f6f8fd; --bg2:#eaeffa; --surface:rgba(255,255,255,.75); --surface-b:rgba(20,30,70,.1);
+    --fg:#0d1330; --muted:#53607f; --accent:#2f6df0; --accent2:#7a54f0;
+  }
+}
+:root[data-theme="light"]{
+  --bg:#f6f8fd; --bg2:#eaeffa; --surface:rgba(255,255,255,.75); --surface-b:rgba(20,30,70,.1);
+  --fg:#0d1330; --muted:#53607f; --accent:#2f6df0; --accent2:#7a54f0;
+}
+*{box-sizing:border-box;margin:0}
+.hero>*,.split>*,.grid>*{min-width:0}
+html{scroll-behavior:smooth;scroll-padding-top:80px}
+body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--fg);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1120px;margin:0 auto;padding:0 16px}
+@media(min-width:700px){.wrap{padding:0 28px}}
+.grad{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+
+/* background glow */
+.bg{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
+.bg i{position:absolute;border-radius:50%;filter:blur(110px);opacity:.38}
+.bg i:nth-child(1){width:520px;height:520px;background:#3b6cff;top:-160px;left:-120px}
+.bg i:nth-child(2){width:460px;height:460px;background:#8a5cff;top:120px;right:-140px}
+.bg i:nth-child(3){width:380px;height:380px;background:#ff5fc8;bottom:-160px;left:35%;opacity:.2}
+.bg::after{content:"";position:absolute;inset:0;background-image:linear-gradient(var(--surface-b) 1px,transparent 1px),linear-gradient(90deg,var(--surface-b) 1px,transparent 1px);background-size:56px 56px;mask-image:radial-gradient(ellipse at 50% 20%,#000 0%,transparent 70%);-webkit-mask-image:radial-gradient(ellipse at 50% 20%,#000 0%,transparent 70%);opacity:.55}
+
+/* nav */
+nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);background:color-mix(in srgb,var(--bg) 70%,transparent);border-bottom:1px solid var(--surface-b)}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:-.01em}
+.logo svg{width:30px;height:30px}
+.links{display:none;gap:28px;color:var(--muted);font-size:.93rem}
+.links a:hover{color:var(--fg)}
+@media(min-width:760px){.links{display:flex}}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:11px 20px;border-radius:999px;font-weight:600;font-size:.95rem;border:1px solid var(--surface-b);background:var(--surface);transition:transform .2s,box-shadow .2s,border-color .2s}
+.btn:hover{transform:translateY(-2px);border-color:var(--accent)}
+.btn.primary{background:var(--grad);color:#fff;border:0;box-shadow:0 10px 30px -10px rgba(110,100,255,.7)}
+.btn.primary:hover{box-shadow:0 14px 36px -8px rgba(130,100,255,.9)}
+
+/* hero */
+.hero{padding:72px 0 56px;display:grid;gap:48px;align-items:center}
+@media(min-width:960px){.hero{grid-template-columns:1.05fr 1fr;padding:104px 0 80px}}
+.pill{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border:1px solid var(--surface-b);background:var(--surface);border-radius:999px;font-size:.82rem;color:var(--muted)}
+.pill b{width:8px;height:8px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 0 rgba(74,222,128,.7);animation:pulse 2s infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 9px rgba(74,222,128,0)}100%{box-shadow:0 0 0 0 rgba(74,222,128,0)}}
+h1{font-size:clamp(2.3rem,6vw,4rem);line-height:1.05;letter-spacing:-.035em;margin:20px 0}
+.lead{color:var(--muted);font-size:1.1rem;max-width:540px}
+.cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}
+
+/* terminal */
+.term{border-radius:var(--radius);background:#0a0f1f;border:1px solid rgba(255,255,255,.1);box-shadow:0 40px 80px -30px rgba(70,90,255,.45);overflow:hidden;color:#dbe3f7}
+.term-bar{display:flex;align-items:center;gap:7px;padding:12px 16px;border-bottom:1px solid rgba(255,255,255,.08);font-family:var(--mono);font-size:.75rem;color:#7b88a8}
+.term-bar i{width:11px;height:11px;border-radius:50%}
+.term-bar i:nth-child(1){background:#ff5f57}.term-bar i:nth-child(2){background:#febc2e}.term-bar i:nth-child(3){background:#28c840}
+.term-bar span{margin-left:8px}
+.term pre{font-family:var(--mono);font-size:.8rem;line-height:1.75;padding:18px 20px;white-space:pre-wrap;word-break:break-word;min-height:300px}
+.term .l{display:block;opacity:0;transform:translateY(4px);animation:in .4s forwards}
+@keyframes in{to{opacity:1;transform:none}}
+.d{color:#6b7794}.o{color:var(--ok)}.w{color:var(--warn)}.b{color:var(--bad)}.a{color:#8db9ff}.p{color:#b9a1ff}
+.cursor{display:inline-block;width:8px;height:15px;background:#8db9ff;vertical-align:-2px;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+
+/* stats */
+.stats{display:grid;gap:16px;grid-template-columns:repeat(2,1fr);margin-bottom:24px}
+@media(min-width:760px){.stats{grid-template-columns:repeat(4,1fr)}}
+.stat{padding:22px;border-radius:var(--radius);background:var(--surface);border:1px solid var(--surface-b)}
+.stat strong{display:block;font-size:2rem;letter-spacing:-.03em;line-height:1.1}
+.stat span{color:var(--muted);font-size:.88rem}
+
+/* sections */
+section{padding:72px 0}
+.eyebrow{font-family:var(--mono);font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent)}
+h2{font-size:clamp(1.7rem,4vw,2.5rem);letter-spacing:-.03em;line-height:1.15;margin:12px 0 14px}
+.sub{color:var(--muted);max-width:620px}
+.head{margin-bottom:44px}
+.grid{display:grid;gap:18px}
+@media(min-width:700px){.g2{grid-template-columns:repeat(2,1fr)}.g3{grid-template-columns:repeat(3,1fr)}.g4{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:1000px){.g4{grid-template-columns:repeat(4,1fr)}}
+
+.card{position:relative;padding:28px;border-radius:var(--radius);background:var(--surface);border:1px solid var(--surface-b);transition:transform .25s,border-color .25s;overflow:hidden}
+.card::before{content:"";position:absolute;inset:0;background:radial-gradient(420px circle at var(--mx,50%) var(--my,0%),rgba(120,130,255,.16),transparent 55%);opacity:0;transition:opacity .3s}
+.card:hover{transform:translateY(-4px);border-color:color-mix(in srgb,var(--accent) 55%,transparent)}
+.card:hover::before{opacity:1}
+.card>*{position:relative}
+.ico{width:46px;height:46px;border-radius:13px;display:grid;place-items:center;background:linear-gradient(135deg,rgba(110,168,255,.22),rgba(155,123,255,.22));border:1px solid var(--surface-b);margin-bottom:18px}
+.ico svg{width:23px;height:23px;stroke:var(--accent);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.card h3{font-size:1.18rem;letter-spacing:-.015em;margin-bottom:8px}
+.card p{color:var(--muted);font-size:.95rem}
+.tags{display:flex;flex-wrap:wrap;gap:7px;margin-top:18px}
+.tags span{font-family:var(--mono);font-size:.72rem;padding:3px 10px;border-radius:999px;border:1px solid var(--surface-b);color:var(--muted)}
+.more{display:inline-flex;gap:6px;margin-top:18px;color:var(--accent);font-weight:600;font-size:.92rem}
+.more:hover{gap:10px}
+.more{transition:gap .2s}
+
+/* flow */
+.flow{counter-reset:s;display:grid;gap:18px}
+@media(min-width:900px){.flow{grid-template-columns:repeat(4,1fr)}}
+.step{counter-increment:s;padding:26px;border-radius:var(--radius);border:1px solid var(--surface-b);background:var(--surface)}
+.step::before{content:"0" counter(s);font-family:var(--mono);font-size:.85rem;color:var(--accent2)}
+.step h3{margin:10px 0 6px;font-size:1.08rem}
+.step p{color:var(--muted);font-size:.92rem}
+
+/* guard list */
+.split{display:grid;gap:40px;align-items:center}
+@media(min-width:900px){.split{grid-template-columns:1fr 1fr}}
+.checks{list-style:none;padding:0;display:grid;gap:14px;margin-top:24px}
+.checks li{display:flex;gap:12px;color:var(--muted)}
+.checks li::before{content:"";flex:none;width:22px;height:22px;margin-top:2px;border-radius:50%;background:rgba(74,222,128,.15) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234ade80' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 12.5l4 4 8-9'/%3E%3C/svg%3E") center/14px no-repeat}
+.checks b{color:var(--fg)}
+.compare{padding:28px;border-radius:var(--radius);background:var(--surface);border:1px solid var(--surface-b)}
+.bar{margin:18px 0}
+.bar small{display:flex;justify-content:space-between;color:var(--muted);font-size:.85rem;margin-bottom:7px}
+.bar div{height:12px;border-radius:99px;background:var(--surface-b);overflow:hidden}
+.bar i{display:block;height:100%;border-radius:99px;transform-origin:left;transform:scaleX(0);transition:transform 1.4s cubic-bezier(.2,.8,.2,1)}
+.bar .raw i{width:100%;background:linear-gradient(90deg,#f87171,#fb923c)}
+.bar .kite i{width:.6%;min-width:6px;background:var(--grad)}
+.in .bar i{transform:none}
+
+/* founder */
+.founder{display:grid;gap:28px;padding:36px;border-radius:calc(var(--radius) + 6px);background:linear-gradient(135deg,rgba(110,168,255,.1),rgba(155,123,255,.1));border:1px solid var(--surface-b)}
+@media(min-width:800px){.founder{grid-template-columns:auto 1fr;align-items:center}}
+.avatar{width:96px;height:96px;border-radius:26px;background:var(--grad);display:grid;place-items:center;font-size:2rem;font-weight:800;color:#fff;letter-spacing:-.04em}
+.badges{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.badges span{font-size:.78rem;padding:5px 12px;border-radius:999px;background:rgba(255,153,0,.12);color:#ffb340;border:1px solid rgba(255,153,0,.3)}
+
+/* cta */
+.final{text-align:center;padding:64px 24px;border-radius:calc(var(--radius) + 10px);background:var(--surface);border:1px solid var(--surface-b);position:relative;overflow:hidden}
+.final::before{content:"";position:absolute;inset:-40% 10% auto;height:300px;background:var(--grad);filter:blur(120px);opacity:.28}
+.final>*{position:relative}
+.final .cta{justify-content:center}
+.final p{margin:0 auto;color:var(--muted);max-width:520px}
+
+footer{padding:36px 0 48px;color:var(--muted);font-size:.88rem;border-top:1px solid var(--surface-b)}
+footer .wrap{display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between}
+footer nav{all:unset}
+.soc{display:flex;gap:20px}.soc a:hover{color:var(--fg)}
+
+/* reveal */
+.rv{opacity:0;transform:translateY(22px);transition:opacity .7s,transform .7s cubic-bezier(.2,.8,.2,1)}
+.rv.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+  .rv{opacity:1;transform:none}.term .l{opacity:1;transform:none}.bar i{transform:none}
+}
 </style>
 </head>
 <body>
+<div class="bg" aria-hidden="true"><i></i><i></i><i></i></div>
+
+<nav>
+  <div class="wrap">
+    <a class="logo" href="#top" aria-label="Minh Phuoc Solution">
+      <svg viewBox="0 0 32 32" aria-hidden="true"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6ea8ff"/><stop offset="1" stop-color="#9b7bff"/></linearGradient></defs><rect width="32" height="32" rx="9" fill="url(#lg)"/><path d="M8 23V9l8 9 8-9v14" fill="none" stroke="#fff" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/></svg>
+      Minh Phuoc Solution
+    </a>
+    <div class="links">
+      <a href="#how">How it works</a><a href="#products">Products</a><a href="#services">Services</a><a href="#about">About</a>
+    </div>
+    <a class="btn primary" href="mailto:phuoctm0707@gmail.com">Get in touch</a>
+  </div>
+</nav>
+
+<main id="top">
 <div class="wrap">
-  <header>
-    <h1>Minh Phuoc Solution</h1>
-    <p class="lead">AI-native infrastructure tooling that helps engineering teams detect, diagnose and remediate Kubernetes incidents safely.</p>
-  </header>
-
-  <section id="products">
-    <h2>Products</h2>
-    <div class="grid">
-      <div class="card"><h3><a href="https://github.com/phuoctmse/Kite">Kite</a></h3><p>Self-hosted AI Ops agent for Kubernetes with whitelisted, auditable actions and a pluggable LLM layer.</p></div>
-      <div class="card"><h3><a href="https://github.com/phuoctmse/RunGuard">RunGuard</a></h3><p>Runbook-driven incident remediation with dry-run, audit trails and rollback.</p></div>
-      <div class="card"><h3><a href="https://github.com/phuoctmse/AI-Unsafe-Resource-Analyzer">Aura</a></h3><p>Real-time, async image moderation pipeline.</p></div>
+  <div class="hero">
+    <div>
+      <span class="pill"><b></b> Building AI-native infrastructure · Ho Chi Minh City</span>
+      <h1>Kubernetes incidents, <span class="grad">resolved safely by AI.</span></h1>
+      <p class="lead">Minh Phuoc Solution builds self-hosted AI Ops agents that detect, diagnose and remediate cluster incidents — with whitelisted actions, full audit trails and rollback built in.</p>
+      <div class="cta">
+        <a class="btn primary" href="#products">Explore products →</a>
+        <a class="btn" href="https://github.com/phuoctmse" target="_blank" rel="noopener">View on GitHub</a>
+      </div>
     </div>
-  </section>
 
-  <section id="services">
-    <h2>Services</h2>
-    <div class="grid">
-      <div class="card"><h3>Kubernetes &amp; Cloud</h3><p>Design, deployment and optimization on AWS and DigitalOcean.</p></div>
-      <div class="card"><h3>CI/CD &amp; GitOps</h3><p>GitHub Actions, ArgoCD and Helm pipelines.</p></div>
-      <div class="card"><h3>AI-native Ops</h3><p>Controlled LLM agents in your operations workflow.</p></div>
-      <div class="card"><h3>Observability</h3><p>Monitoring and alerting that shortens time to root cause.</p></div>
+    <div class="term" role="img" aria-label="Animated example of an AI agent diagnosing and fixing a crashing pod">
+      <div class="term-bar"><i></i><i></i><i></i><span>kite-agent · prod-cluster</span></div>
+      <pre id="term"></pre>
     </div>
-  </section>
+  </div>
 
-  <section id="about">
-    <h2>About</h2>
-    <p>Founded by Truong Minh Phuoc, a DevOps engineer based in Ho Chi Minh City, Vietnam, with AWS Solutions Architect Associate certification and hands-on experience running production microservices on Kubernetes.</p>
-  </section>
-
-  <section id="contact">
-    <h2>Contact</h2>
-    <p><a href="mailto:phuoctm0707@gmail.com">phuoctm0707@gmail.com</a> · <a href="https://www.linkedin.com/in/phuoctm0712">LinkedIn</a> · <a href="https://github.com/phuoctmse">GitHub</a></p>
-  </section>
-
-  <footer>© 2026 Minh Phuoc Solution · truongminhphuoc.id.vn</footer>
+  <div class="stats rv">
+    <div class="stat"><strong class="grad">172×</strong><span>smaller LLM context vs raw kubectl dump</span></div>
+    <div class="stat"><strong class="grad">160+</strong><span>tests, 90%+ coverage on RunGuard</span></div>
+    <div class="stat"><strong class="grad">99.9%</strong><span>uptime on production microservices</span></div>
+    <div class="stat"><strong class="grad">3</strong><span>LLM providers: Anthropic, OpenAI, Ollama</span></div>
+  </div>
 </div>
+
+<section id="how">
+  <div class="wrap">
+    <div class="head rv">
+      <div class="eyebrow">How it works</div>
+      <h2>From alert to fix, with a human-grade safety net</h2>
+      <p class="sub">Every action passes through the same four stages, so automation never touches production without proof.</p>
+    </div>
+    <div class="flow">
+      <div class="step rv"><h3>Observe</h3><p>Informers watch Pods, Events and Nodes. A debounced pipeline filters noise.</p></div>
+      <div class="step rv"><h3>Diagnose</h3><p>A compact snapshot is sent to a pluggable LLM that reasons about root cause.</p></div>
+      <div class="step rv"><h3>Validate</h3><p>Proposed actions are checked against whitelist, owner-guard, bounds and cooldown.</p></div>
+      <div class="step rv"><h3>Remediate</h3><p>Dry-run first, then execute with an audit entry and one-step rollback.</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap split">
+    <div class="rv">
+      <div class="eyebrow">Safety first</div>
+      <h2>Automation you can trust with the pager</h2>
+      <p class="sub">AI agents are only useful in production if they are predictable. Guard rails are not an add-on — they are the architecture.</p>
+      <ul class="checks">
+        <li><span><b>Whitelisted actions only.</b> Anything outside the allow-list is rejected.</span></li>
+        <li><span><b>Bounded blast radius.</b> Replica limits, owner checks, cooldowns and idempotency.</span></li>
+        <li><span><b>Full audit trail.</b> Every decision and change is recorded.</span></li>
+        <li><span><b>Dry-run &amp; rollback.</b> Preview first, undo instantly.</span></li>
+      </ul>
+    </div>
+    <div class="compare rv" id="cmp">
+      <div class="eyebrow">Context size per incident</div>
+      <div class="bar raw"><small><span>Raw kubectl dump</span><span>278 KB</span></small><div><i></i></div></div>
+      <div class="bar kite"><small><span>Kite compact snapshot</span><span>1.6 KB</span></small><div><i></i></div></div>
+      <p class="sub" style="font-size:.9rem">Measured, not estimated — lower cost, faster responses and fewer hallucinations.</p>
+    </div>
+  </div>
+</section>
+
+<section id="products">
+  <div class="wrap">
+    <div class="head rv">
+      <div class="eyebrow">Products</div>
+      <h2>Tools built the way I'd want them if I owned the pager</h2>
+    </div>
+    <div class="grid g3">
+      <a class="card rv" href="https://github.com/phuoctmse/Kite" target="_blank" rel="noopener">
+        <div class="ico"><svg viewBox="0 0 24 24"><path d="M12 2l9 5v10l-9 5-9-5V7z"/><path d="M12 12l9-5M12 12v10M12 12L3 7"/></svg></div>
+        <h3>Kite</h3><p>Self-hosted AI Ops agent for Kubernetes with a custom CRD, a pluggable LLM layer and an auditable executor.</p>
+        <div class="tags"><span>Go</span><span>controller-runtime</span><span>Claude</span></div><span class="more">View project →</span>
+      </a>
+      <a class="card rv" href="https://github.com/phuoctmse/RunGuard" target="_blank" rel="noopener">
+        <div class="ico"><svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg></div>
+        <h3>RunGuard</h3><p>Runbook-driven incident remediation with dry-run mode, audit trails and rollback support.</p>
+        <div class="tags"><span>Python</span><span>FastAPI</span><span>160+ tests</span></div><span class="more">View project →</span>
+      </a>
+      <a class="card rv" href="https://github.com/phuoctmse/AI-Unsafe-Resource-Analyzer" target="_blank" rel="noopener">
+        <div class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/></svg></div>
+        <h3>Aura</h3><p>Real-time async image moderation pipeline with a Next.js UI, Socket.io gateway and AI worker.</p>
+        <div class="tags"><span>Next.js</span><span>Hono</span><span>Redis</span></div><span class="more">View project →</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section id="services">
+  <div class="wrap">
+    <div class="head rv">
+      <div class="eyebrow">Services</div>
+      <h2>Infrastructure help for teams without a full SRE bench</h2>
+    </div>
+    <div class="grid g4">
+      <div class="card rv"><div class="ico"><svg viewBox="0 0 24 24"><path d="M7 18a4 4 0 010-8 5 5 0 019.6-1A4.5 4.5 0 0117 18z"/></svg></div><h3>Kubernetes &amp; Cloud</h3><p>Design, deployment and cost-tuning on AWS and DigitalOcean.</p></div>
+      <div class="card rv"><div class="ico"><svg viewBox="0 0 24 24"><circle cx="6" cy="6" r="2.5"/><circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="12" r="2.5"/><path d="M6 8.5v7M8.5 6H12a3 3 0 013 3v.5M8.5 18H12a3 3 0 003-3v-.5"/></svg></div><h3>CI/CD &amp; GitOps</h3><p>GitHub Actions, ArgoCD and Helm pipelines with change-based deploys.</p></div>
+      <div class="card rv"><div class="ico"><svg viewBox="0 0 24 24"><path d="M12 3l1.8 4.7L18.5 9.5l-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8zM19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/></svg></div><h3>AI-native Ops</h3><p>Controlled LLM agents integrated into your operations workflow.</p></div>
+      <div class="card rv"><div class="ico"><svg viewBox="0 0 24 24"><path d="M3 12h4l3-8 4 16 3-8h4"/></svg></div><h3>Observability</h3><p>Monitoring and alerting that cuts time to root cause.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="wrap">
+    <div class="founder rv">
+      <div class="avatar">MP</div>
+      <div>
+        <div class="eyebrow">Founder</div>
+        <h2 style="margin-top:8px">Truong Minh Phuoc</h2>
+        <p class="sub">DevOps engineer with a QA mindset: obsessed with failure modes, root causes and what “done” really means. Led DevOps and backend for a 5-service microservices platform running on Kubernetes at 99.9% uptime.</p>
+        <div class="badges"><span>AWS Solutions Architect Associate</span><span>AWS Cloud Practitioner</span><span>AWS Serverless</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="final rv">
+      <h2>Let's make your on-call quieter</h2>
+      <p>Tell me about your cluster and your worst incident. I'll reply personally.</p>
+      <div class="cta">
+        <a class="btn primary" href="mailto:phuoctm0707@gmail.com">phuoctm0707@gmail.com</a>
+        <a class="btn" href="https://www.linkedin.com/in/phuoctm0712" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Minh Phuoc Solution · truongminhphuoc.id.vn</span>
+    <div class="soc"><a href="https://github.com/phuoctmse" target="_blank" rel="noopener">GitHub</a><a href="https://www.linkedin.com/in/phuoctm0712" target="_blank" rel="noopener">LinkedIn</a><a href="mailto:phuoctm0707@gmail.com">Email</a></div>
+  </div>
+</footer>
+
+<script>
+// Reveal on scroll
+const io = new IntersectionObserver(es => es.forEach(e => {
+  if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+}), { threshold: .15 });
+document.querySelectorAll('.rv').forEach(el => io.observe(el));
+
+// Cursor-follow glow on cards
+document.querySelectorAll('.card').forEach(c => c.addEventListener('pointermove', e => {
+  const r = c.getBoundingClientRect();
+  c.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+  c.style.setProperty('--my', (e.clientY - r.top) + 'px');
+}));
+
+// Terminal story
+const lines = [
+  '<span class="d">$</span> kite watch --namespace payments',
+  '<span class="o">✔</span> informers synced · 42 pods · 6 nodes',
+  '<span class="w">⚠</span> payments-api-7d9f  <span class="b">CrashLoopBackOff</span> (restarts: 7)',
+  '<span class="a">→</span> snapshot built <span class="d">1.6 KB</span> · asking provider <span class="p">anthropic</span>',
+  '<span class="a">→</span> diagnosis: OOMKilled, limit 128Mi < working set 190Mi',
+  '<span class="a">→</span> proposal: patch memory limit → 256Mi',
+  '<span class="o">✔</span> whitelist · owner-guard · bounds · cooldown',
+  '<span class="d">$</span> dry-run … <span class="o">ok</span>',
+  '<span class="o">✔</span> applied · audit #1042 · rollback ready',
+  '<span class="o">✔</span> payments-api-7d9f  <span class="o">Running</span> (healthy)'
+];
+const out = document.getElementById('term');
+const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+function play() {
+  out.innerHTML = '';
+  lines.forEach((t, i) => {
+    const s = document.createElement('span');
+    s.className = 'l';
+    s.innerHTML = t;
+    s.style.animationDelay = still ? '0s' : (i * 0.9) + 's';
+    out.appendChild(s);
+  });
+  const cur = document.createElement('span');
+  cur.className = 'cursor';
+  out.appendChild(cur);
+  if (!still) setTimeout(play, lines.length * 900 + 5000);
+}
+play();
+</script>
 </body>
 </html>
