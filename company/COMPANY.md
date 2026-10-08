@@ -15,10 +15,10 @@
 | Địa điểm | Ho Chi Minh City, Vietnam |
 | LinkedIn | https://www.linkedin.com/in/phuoctm0712 |
 | GitHub | https://github.com/phuoctmse |
-| Năm thành lập | [TODO] |
+| Năm thành lập | 2026 |
 | Giai đoạn | Pre-seed / Bootstrapped |
 | Số nhân sự | 1 (founder) |
-| Mã số thuế / ĐKKD | [TODO — nếu đã đăng ký pháp nhân] |
+| Mã số thuế / ĐKKD | Chưa có |
 
 ## One-liner
 
