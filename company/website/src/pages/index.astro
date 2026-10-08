@@ -1,0 +1,272 @@
+---
+import Base from '../layouts/Base.astro';
+
+const email = 'phuoctm0707@gmail.com';
+const stats = [
+  ['172×', 'smaller LLM context vs raw kubectl dump'],
+  ['160+', 'tests, 90%+ coverage on RunGuard'],
+  ['99.9%', 'uptime on production microservices'],
+  ['3', 'LLM providers: Anthropic, OpenAI, Ollama'],
+];
+const steps = [
+  ['Observe', 'Informers watch Pods, Events and Nodes. A debounced pipeline filters noise.'],
+  ['Diagnose', 'A compact snapshot goes to a pluggable LLM that reasons about root cause.'],
+  ['Validate', 'Actions are checked against whitelist, owner-guard, bounds and cooldown.'],
+  ['Remediate', 'Dry-run first, then execute with an audit entry and one-step rollback.'],
+];
+const guards = [
+  ['Whitelisted actions only.', 'Anything outside the allow-list is rejected.'],
+  ['Bounded blast radius.', 'Replica limits, owner checks, cooldowns and idempotency.'],
+  ['Full audit trail.', 'Every decision and change is recorded.'],
+  ['Dry-run & rollback.', 'Preview first, undo instantly.'],
+];
+const products = [
+  { name: 'Kite', href: 'https://github.com/phuoctmse/Kite', desc: 'Self-hosted AI Ops agent for Kubernetes with a custom CRD, a pluggable LLM layer and an auditable executor.', tags: ['Go', 'controller-runtime', 'Claude'], icon: 'M12 2l9 5v10l-9 5-9-5V7zM12 12l9-5M12 12v10M12 12L3 7' },
+  { name: 'RunGuard', href: 'https://github.com/phuoctmse/RunGuard', desc: 'Runbook-driven incident remediation with dry-run mode, audit trails and rollback support.', tags: ['Python', 'FastAPI', '160+ tests'], icon: 'M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6zM9 12l2 2 4-4' },
+  { name: 'Aura', href: 'https://github.com/phuoctmse/AI-Unsafe-Resource-Analyzer', desc: 'Real-time async image moderation pipeline with a Next.js UI, Socket.io gateway and AI worker.', tags: ['Next.js', 'Hono', 'Redis'], icon: 'M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12zM12 9a3 3 0 100 6 3 3 0 000-6z' },
+];
+const services = [
+  ['Kubernetes & Cloud', 'Design, deployment and cost-tuning on AWS and DigitalOcean.', 'M7 18a4 4 0 010-8 5 5 0 019.6-1A4.5 4.5 0 0117 18z'],
+  ['CI/CD & GitOps', 'GitHub Actions, ArgoCD and Helm pipelines with change-based deploys.', 'M6 8.5v7M8.5 6H12a3 3 0 013 3v.5M8.5 18H12a3 3 0 003-3v-.5M6 3.5a2.5 2.5 0 100 5 2.5 2.5 0 000-5zM6 15.5a2.5 2.5 0 100 5 2.5 2.5 0 000-5zM18 9.5a2.5 2.5 0 100 5 2.5 2.5 0 000-5z'],
+  ['AI-native Ops', 'Controlled LLM agents integrated into your operations workflow.', 'M12 3l1.8 4.7L18.5 9.5l-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8zM19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z'],
+  ['Observability', 'Monitoring and alerting that cuts time to root cause.', 'M3 12h4l3-8 4 16 3-8h4'],
+];
+const term = [
+  '<span class="opacity-50">$</span> kite watch --namespace payments',
+  '<span class="text-success">✔</span> informers synced · 42 pods · 6 nodes',
+  '<span class="text-warning">⚠</span> payments-api-7d9f <span class="text-error">CrashLoopBackOff</span> (restarts: 7)',
+  '<span class="text-primary">→</span> snapshot built <span class="opacity-50">1.6 KB</span> · provider <span class="text-secondary">anthropic</span>',
+  '<span class="text-primary">→</span> diagnosis: OOMKilled, limit 128Mi < working set 190Mi',
+  '<span class="text-primary">→</span> proposal: patch memory limit → 256Mi',
+  '<span class="text-success">✔</span> whitelist · owner-guard · bounds · cooldown',
+  '<span class="opacity-50">$</span> dry-run … <span class="text-success">ok</span>',
+  '<span class="text-success">✔</span> applied · audit #1042 · rollback ready',
+  '<span class="text-success">✔</span> payments-api-7d9f <span class="text-success">Running</span> (healthy)',
+];
+---
+<Base title="Minh Phuoc Solution" description="Minh Phuoc Solution builds AI-native infrastructure tooling that helps engineering teams detect, diagnose and remediate Kubernetes incidents safely.">
+
+  <!-- NAV -->
+  <div class="sticky top-0 z-50 border-b border-base-content/10 bg-base-100/70 backdrop-blur-lg">
+    <div class="navbar mx-auto max-w-6xl px-4">
+      <div class="navbar-start">
+        <a href="#top" class="flex items-center gap-2.5 font-bold tracking-tight" aria-label="Minh Phuoc Solution">
+          <img src="/favicon.svg" alt="" class="size-8" width="32" height="32" />
+          <span class="hidden sm:inline">Minh Phuoc Solution</span>
+        </a>
+      </div>
+      <ul class="navbar-center hidden gap-1 text-sm md:flex">
+        <li><a class="btn btn-ghost btn-sm" href="#how">How it works</a></li>
+        <li><a class="btn btn-ghost btn-sm" href="#products">Products</a></li>
+        <li><a class="btn btn-ghost btn-sm" href="#services">Services</a></li>
+        <li><a class="btn btn-ghost btn-sm" href="#about">About</a></li>
+      </ul>
+      <div class="navbar-end gap-2">
+        <button id="theme" class="btn btn-ghost btn-circle btn-sm" aria-label="Toggle theme">
+          <svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1111.2 3a7 7 0 009.8 9.8z"/></svg>
+        </button>
+        <a class="btn btn-sm border-0 bg-gradient-brand text-white shadow-lg shadow-secondary/30" href={`mailto:${email}`}>Get in touch</a>
+      </div>
+    </div>
+  </div>
+
+  <main id="top">
+    <!-- HERO -->
+    <div class="hero-bg relative overflow-hidden">
+      <div class="grid-bg absolute inset-0 -z-0"></div>
+      <div class="relative mx-auto grid max-w-6xl items-center gap-12 px-4 pb-14 pt-16 lg:grid-cols-[1.05fr_1fr] lg:pb-20 lg:pt-24">
+        <div class="min-w-0">
+          <span class="badge badge-outline gap-2 py-3 text-xs opacity-80">
+            <span class="size-2 animate-pulse-ring rounded-full bg-success shadow-[0_0_0_0_var(--color-success)]"></span>
+            Building AI-native infrastructure · Ho Chi Minh City
+          </span>
+          <h1 class="my-5 text-4xl font-extrabold leading-[1.05] tracking-tight sm:text-5xl lg:text-6xl">
+            Kubernetes incidents, <span class="text-gradient">resolved safely by AI.</span>
+          </h1>
+          <p class="max-w-xl text-lg opacity-70">Minh Phuoc Solution builds self-hosted AI Ops agents that detect, diagnose and remediate cluster incidents — with whitelisted actions, full audit trails and rollback built in.</p>
+          <div class="mt-8 flex flex-wrap gap-3">
+            <a class="btn border-0 bg-gradient-brand text-white shadow-lg shadow-secondary/30" href="#products">Explore products →</a>
+            <a class="btn btn-outline" href="https://github.com/phuoctmse" target="_blank" rel="noopener">View on GitHub</a>
+          </div>
+        </div>
+
+        <div class="mockup-code min-w-0 bg-[#0a0f1f] text-[#dbe3f7] shadow-2xl shadow-primary/20" role="img" aria-label="Animated example of an AI agent diagnosing and fixing a crashing pod">
+          <div id="term" class="min-h-[300px] whitespace-pre-wrap break-words px-6 py-2 font-mono text-[.8rem] leading-7">
+            {term.map((t, i) => <span class="term-line block" style={`animation-delay:${i * 0.9}s`} set:html={t} />)}
+          </div>
+        </div>
+      </div>
+
+      <!-- STATS -->
+      <div class="relative mx-auto max-w-6xl px-4 pb-6">
+        <div class="stats stats-vertical w-full border border-base-content/10 bg-base-200/60 sm:stats-horizontal rv">
+          {stats.map(([n, l]) => (
+            <div class="stat">
+              <div class="stat-value text-gradient">{n}</div>
+              <div class="stat-desc whitespace-normal text-sm">{l}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <!-- HOW -->
+    <section id="how" class="mx-auto max-w-6xl px-4 py-20">
+      <div class="rv mb-11">
+        <div class="font-mono text-xs uppercase tracking-[.14em] text-primary">How it works</div>
+        <h2 class="mt-3 max-w-2xl text-3xl font-bold tracking-tight sm:text-4xl">From alert to fix, with a human-grade safety net</h2>
+        <p class="mt-3 max-w-xl opacity-70">Every action passes through the same four stages, so automation never touches production without proof.</p>
+      </div>
+      <ul class="steps steps-vertical lg:steps-horizontal w-full rv">
+        {steps.map(([t, d]) => (
+          <li class="step step-primary">
+            <div class="px-3 pb-6 text-left lg:text-center">
+              <h3 class="font-semibold">{t}</h3>
+              <p class="mt-1 text-sm opacity-70">{d}</p>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <!-- SAFETY -->
+    <section class="mx-auto grid max-w-6xl items-center gap-10 px-4 py-20 lg:grid-cols-2">
+      <div class="rv min-w-0">
+        <div class="font-mono text-xs uppercase tracking-[.14em] text-primary">Safety first</div>
+        <h2 class="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">Automation you can trust with the pager</h2>
+        <p class="mt-3 opacity-70">AI agents are only useful in production if they are predictable. Guard rails are not an add-on — they are the architecture.</p>
+        <ul class="mt-6 grid gap-4">
+          {guards.map(([b, t]) => (
+            <li class="flex gap-3">
+              <span class="mt-0.5 grid size-6 flex-none place-items-center rounded-full bg-success/15 text-success">
+                <svg class="size-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 12.5l4 4 8-9"/></svg>
+              </span>
+              <span class="opacity-75"><b class="opacity-100">{b}</b> {t}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div class="card rv min-w-0 border border-base-content/10 bg-base-200/60 p-7">
+        <div class="font-mono text-xs uppercase tracking-[.14em] text-primary">Context size per incident</div>
+        <div class="mt-6">
+          <div class="mb-2 flex justify-between text-sm opacity-70"><span>Raw kubectl dump</span><span>278 KB</span></div>
+          <div class="h-3 overflow-hidden rounded-full bg-base-300"><div class="bar-fill h-full w-full rounded-full bg-gradient-to-r from-error to-orange-400"></div></div>
+        </div>
+        <div class="mt-5">
+          <div class="mb-2 flex justify-between text-sm opacity-70"><span>Kite compact snapshot</span><span>1.6 KB</span></div>
+          <div class="h-3 overflow-hidden rounded-full bg-base-300"><div class="bar-fill h-full min-w-1.5 w-[.6%] rounded-full bg-gradient-brand"></div></div>
+        </div>
+        <p class="mt-6 text-sm opacity-60">Measured, not estimated — lower cost, faster responses and fewer hallucinations.</p>
+      </div>
+    </section>
+
+    <!-- PRODUCTS -->
+    <section id="products" class="mx-auto max-w-6xl px-4 py-20">
+      <div class="rv mb-11">
+        <div class="font-mono text-xs uppercase tracking-[.14em] text-primary">Products</div>
+        <h2 class="mt-3 max-w-2xl text-3xl font-bold tracking-tight sm:text-4xl">Tools built the way I'd want them if I owned the pager</h2>
+      </div>
+      <div class="grid gap-5 md:grid-cols-3">
+        {products.map((p) => (
+          <a href={p.href} target="_blank" rel="noopener" class="card rv border border-base-content/10 bg-base-200/60 transition hover:-translate-y-1 hover:border-primary/60 hover:shadow-xl hover:shadow-primary/10">
+            <div class="card-body">
+              <div class="mb-2 grid size-11 place-items-center rounded-xl bg-primary/15 text-primary">
+                <svg class="size-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d={p.icon}/></svg>
+              </div>
+              <h3 class="card-title">{p.name}</h3>
+              <p class="opacity-70">{p.desc}</p>
+              <div class="mt-3 flex flex-wrap gap-2">{p.tags.map((t) => <span class="badge badge-outline badge-sm font-mono">{t}</span>)}</div>
+              <span class="mt-4 text-sm font-semibold text-primary">View project →</span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section id="services" class="mx-auto max-w-6xl px-4 py-20">
+      <div class="rv mb-11">
+        <div class="font-mono text-xs uppercase tracking-[.14em] text-primary">Services</div>
+        <h2 class="mt-3 max-w-2xl text-3xl font-bold tracking-tight sm:text-4xl">Infrastructure help for teams without a full SRE bench</h2>
+      </div>
+      <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        {services.map(([t, d, icon]) => (
+          <div class="card rv border border-base-content/10 bg-base-200/60 transition hover:-translate-y-1 hover:border-primary/60">
+            <div class="card-body">
+              <div class="mb-2 grid size-11 place-items-center rounded-xl bg-secondary/15 text-secondary">
+                <svg class="size-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d={icon}/></svg>
+              </div>
+              <h3 class="card-title text-lg">{t}</h3>
+              <p class="text-sm opacity-70">{d}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="mx-auto max-w-6xl px-4 py-20">
+      <div class="rv grid gap-7 rounded-[1.5rem] border border-base-content/10 bg-gradient-to-br from-primary/10 to-secondary/10 p-8 md:grid-cols-[auto_1fr] md:items-center md:p-10">
+        <div class="avatar avatar-placeholder"><div class="size-24 rounded-3xl bg-gradient-brand text-3xl font-extrabold text-white">MP</div></div>
+        <div>
+          <div class="font-mono text-xs uppercase tracking-[.14em] text-primary">Founder</div>
+          <h2 class="mt-2 text-3xl font-bold tracking-tight">Truong Minh Phuoc</h2>
+          <p class="mt-3 max-w-2xl opacity-70">DevOps engineer with a QA mindset: obsessed with failure modes, root causes and what “done” really means. Led DevOps and backend for a 5-service microservices platform running on Kubernetes at 99.9% uptime.</p>
+          <div class="mt-4 flex flex-wrap gap-2">
+            <span class="badge badge-warning badge-outline">AWS Solutions Architect Associate</span>
+            <span class="badge badge-warning badge-outline">AWS Cloud Practitioner</span>
+            <span class="badge badge-warning badge-outline">AWS Serverless</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="mx-auto max-w-6xl px-4 pb-20">
+      <div class="rv relative overflow-hidden rounded-[1.75rem] border border-base-content/10 bg-base-200/60 px-6 py-16 text-center">
+        <div class="pointer-events-none absolute inset-x-[10%] -top-1/3 h-72 bg-gradient-brand opacity-25 blur-[120px]"></div>
+        <div class="relative">
+          <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">Let's make your on-call quieter</h2>
+          <p class="mx-auto mt-3 max-w-md opacity-70">Tell me about your cluster and your worst incident. I'll reply personally.</p>
+          <div class="mt-8 flex flex-wrap justify-center gap-3">
+            <a class="btn border-0 bg-gradient-brand text-white shadow-lg shadow-secondary/30" href={`mailto:${email}`}>{email}</a>
+            <a class="btn btn-outline" href="https://www.linkedin.com/in/phuoctm0712" target="_blank" rel="noopener">LinkedIn</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="border-t border-base-content/10 py-9 text-sm opacity-70">
+    <div class="mx-auto flex max-w-6xl flex-wrap justify-between gap-4 px-4">
+      <span>© 2026 Minh Phuoc Solution · truongminhphuoc.id.vn</span>
+      <div class="flex gap-5">
+        <a class="hover:opacity-100" href="https://github.com/phuoctmse" target="_blank" rel="noopener">GitHub</a>
+        <a class="hover:opacity-100" href="https://www.linkedin.com/in/phuoctm0712" target="_blank" rel="noopener">LinkedIn</a>
+        <a class="hover:opacity-100" href={`mailto:${email}`}>Email</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Scroll reveal
+    const io = new IntersectionObserver((es) => es.forEach((e) => {
+      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    }), { threshold: 0.15 });
+    document.querySelectorAll('.rv').forEach((el) => io.observe(el));
+
+    // Theme toggle
+    document.getElementById('theme')?.addEventListener('click', () => {
+      const next = document.documentElement.dataset.theme === 'mps-light' ? 'mps-dark' : 'mps-light';
+      document.documentElement.dataset.theme = next;
+      try { localStorage.setItem('theme', next); } catch (_) {}
+    });
+
+    // Loop the terminal story
+    const term = document.getElementById('term');
+    if (term && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      const html = term.innerHTML;
+      setInterval(() => { term.innerHTML = ''; void term.offsetWidth; term.innerHTML = html; }, 14000);
+    }
+  </script>
+</Base>

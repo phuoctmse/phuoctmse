@@ -1,0 +1,32 @@
+---
+import '../styles/global.css';
+const { title, description } = Astro.props;
+const url = new URL(Astro.url.pathname, Astro.site);
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={url} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={url} />
+    <meta name="theme-color" content="#0a0f1f" />
+    <script is:inline>
+      // Apply saved/system theme before paint to avoid a flash.
+      try {
+        const t = localStorage.getItem('theme') ||
+          (matchMedia('(prefers-color-scheme: light)').matches ? 'mps-light' : 'mps-dark');
+        document.documentElement.dataset.theme = t;
+      } catch (_) {}
+    </script>
+  </head>
+  <body class="bg-base-100 text-base-content font-sans antialiased">
+    <slot />
+  </body>
+</html>
