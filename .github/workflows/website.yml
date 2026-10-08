@@ -2,7 +2,7 @@ name: Deploy website
 
 on:
   push:
-    branches: [main]
+    branches: [claude/beautiful-gates-siklrt]
     paths: ["company/website/**", ".github/workflows/website.yml"]
   workflow_dispatch:
 
